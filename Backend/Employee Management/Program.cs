@@ -31,12 +31,15 @@ namespace Employee_Management
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll",
-                    policy => policy
-                        .AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+                options.AddPolicy("AllowSpecific",
+                 policy => policy
+                .WithOrigins("http://localhost:5173")
+                .WithMethods("GET", "POST", "PUT", "DELETE")
+                .WithHeaders("Content-Type", "Authorization")
+);  
             });
+
+
 
             var app = builder.Build();
 
@@ -52,7 +55,7 @@ namespace Employee_Management
 
             app.UseMiddleware<ExceptionMiddleware>();
 
-            app.UseCors("AllowAll");
+            app.UseCors("AllowSpecific");
 
             app.UseAuthentication();
 
