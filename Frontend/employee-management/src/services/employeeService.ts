@@ -14,3 +14,10 @@ export const addEmployee = async (data: Employee) => {
 export const deleteEmployee = async (id: number) => {
   await api.delete(`/Employees/${id}`);
 };
+
+export const updateEmployee = async (
+  id: number,
+  data: Employee
+): Promise<void> => {
+  await api.put(`/Employees/${id}`, data);
+};

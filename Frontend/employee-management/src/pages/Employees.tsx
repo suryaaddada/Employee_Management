@@ -3,6 +3,7 @@ import {
   getEmployees,
   addEmployee,
   deleteEmployee,
+    updateEmployee,
 } from "../services/employeeService";
 
 interface Employee {
@@ -16,6 +17,7 @@ interface Employee {
 
 function Employees() {
   const [employees, setEmployees] = useState<Employee[]>([]);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -37,27 +39,46 @@ function Employees() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleEdit = (emp: Employee) => {
+  setForm({
+    name: emp.name,
+    email: emp.email,
+    phone: emp.phone,
+    salary: emp.salary.toString(),
+    departmentId: emp.departmentId.toString(),
+  });
+
+  setEditingId(emp.id!);
+};
+
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    await addEmployee({
-      name: form.name,
-      email: form.email,
-      salary: Number(form.salary),
-      phone: form.phone,
-      departmentId: Number(form.departmentId),
-    });
-
-    setForm({
-      name: "",
-      email: "",
-      salary: "",
-        phone: "",
-      departmentId: "",
-    });
-
-    loadEmployees();
+  const payload = {
+    name: form.name,
+    email: form.email,
+    phone: form.phone,
+    salary: Number(form.salary),
+    departmentId: Number(form.departmentId),
   };
+
+  if (editingId) {
+    await updateEmployee(editingId, payload);
+    setEditingId(null);
+  } else {
+    await addEmployee(payload);
+  }
+
+  setForm({
+    name: "",
+    email: "",
+    phone: "",
+    salary: "",
+    departmentId: "",
+  });
+
+  loadEmployees();
+};
 
   const handleDelete = async (id: number) => {
     await deleteEmployee(id);
@@ -76,7 +97,9 @@ function Employees() {
         <input name="phone" placeholder="Phone" value={form.phone} onChange={handleChange}/>
         <input name="departmentId" placeholder="Department Id" value={form.departmentId} onChange={handleChange} />
 
-        <button type="submit">Add Employee</button>
+       <button type="submit">
+  {editingId ? "Update Employee" : "Add Employee"}
+</button>
       </form>
 
       <br />
@@ -102,6 +125,7 @@ function Employees() {
               <td>{emp.departmentId}</td>
               <td>
                 <button onClick={() => handleDelete(emp.id)}>Delete</button>
+                <button onClick={() => handleEdit(emp)}>Edit</button>
               </td>
             </tr>
           ))}
