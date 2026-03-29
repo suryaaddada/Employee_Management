@@ -1,4 +1,5 @@
 ﻿using Employee_Management.Entities;
+using Employee_Management.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Employee_Management.Data
@@ -12,6 +13,7 @@ namespace Employee_Management.Data
         public DbSet<Department> Departments { get; set; }
 
         public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

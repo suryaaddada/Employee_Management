@@ -21,12 +21,22 @@ namespace Employee_Management
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+            builder.Services.AddScoped<AuthService>();
 
             builder.Services.AddControllers();
            
             builder.Services.AddOpenApi();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    policy => policy
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+            });
 
             var app = builder.Build();
 
@@ -40,10 +50,14 @@ namespace Employee_Management
             
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
-
             app.UseMiddleware<ExceptionMiddleware>();
 
+            app.UseCors("AllowAll");
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+      
             app.MapControllers();
 
             app.Run();
