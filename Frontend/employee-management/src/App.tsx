@@ -1,17 +1,28 @@
-import { useEffect } from "react";
-import { getEmployees } from "./services/employeeService";
+import { BrowserRouter, Routes, Route ,Navigate} from "react-router-dom";
+import Layout from "./components/Layout";
+import Employees from "./pages/Employees";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
-  useEffect(() => {
-    getEmployees()
-      .then(data => console.log("Employees:", data))
-      .catch(err => console.log("Error:", err));
-  }, []);
-
   return (
-    <div>
-      <h1>Employee Management System</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+
+
+        <Route path="/" element={<Navigate to="/login" />} />
+
+        {/* Public routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Protected layout */}
+        <Route path="/app" element={<Layout />}>
+          <Route index element={<Employees />} />
+        </Route>
+
+      </Routes>
+    </BrowserRouter>
   );
 }
 
