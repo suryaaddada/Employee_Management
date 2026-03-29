@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import Employees from "./pages/Employees";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -17,9 +18,13 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         {/* Protected layout */}
-        <Route path="/app" element={<Layout />}>
-          <Route index element={<Employees />} />
+         <Route element={<ProtectedRoute />}>
+          <Route path="/app" element={<Layout />}>
+            <Route index element={<Employees />} />
+          </Route>
         </Route>
+
+        <Route path="*" element={<Navigate to="/login" replace />} />
 
       </Routes>
     </BrowserRouter>
