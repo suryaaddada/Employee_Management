@@ -15,7 +15,7 @@ namespace Employee_Management.Entities
         [Required, EmailAddress, MaxLength(150)]
         public string Email { get; set; }
 
-        [MaxLength(15)]
+        [MaxLength(10)]
         public string Phone { get; set; }
 
         [Required]
