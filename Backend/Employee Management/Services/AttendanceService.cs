@@ -63,4 +63,20 @@ public class AttendanceService : IAttendanceService
             })
             .ToListAsync();
     }
+
+    public async Task<List<AttendanceDto>> GetAttendanceAsync()
+    {
+        
+        var attendance = await _context.Attendances
+            .Select(a => new AttendanceDto
+            {
+                EmployeeId = a.EmployeeId,
+                Date = a.Date,
+                CheckIn = a.CheckIn,
+                CheckOut = a.CheckOut,
+                IsPresent = a.IsPresent
+            })
+            .ToListAsync();
+        return attendance;
+    }
 }

@@ -2,6 +2,7 @@
 using Employee_Management.Entities;
 using Employee_Management.Model;
 using Employee_Management.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Employee_Management.Services
@@ -52,7 +53,7 @@ namespace Employee_Management.Services
 
         public async Task<EmployeeDto> CreateAsync(EmployeeDto dto)
         {
-           
+
 
             var departmentExists = await _context.Departments.AnyAsync(d => d.Id == dto.DepartmentId);
 
@@ -101,6 +102,23 @@ namespace Employee_Management.Services
             if (emp == null) return false;
 
             _context.Employees.Remove(emp);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteMultipleAsync(List<int> ids)
+        {
+            if (ids == null || !ids.Any())
+                return false;
+
+            var employees = await _context.Employees
+                .Where(e => ids.Contains(e.Id))
+                .ToListAsync();
+
+            if (!employees.Any())
+                return false;
+
+            _context.Employees.RemoveRange(employees);
             await _context.SaveChangesAsync();
             return true;
         }

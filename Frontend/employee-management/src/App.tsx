@@ -4,6 +4,7 @@ import Employees from "./pages/Employees";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AttendancePage from "./pages/Attendance";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
          <Route element={<ProtectedRoute />}>
           <Route path="/app" element={<Layout />}>
             <Route index element={<Employees />} />
+            <Route path="attendance" element={<AttendancePage/>} />
           </Route>
         </Route>
 

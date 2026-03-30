@@ -26,4 +26,13 @@ public class AttendanceController : ControllerBase
         var data = await _service.GetByEmployeeAsync(employeeId);
         return Ok(data);
     }
+
+    [HttpGet()]
+    public async Task<IActionResult> GetAttendance()
+    {
+        var data = await _service.GetAttendanceAsync();
+        return Ok(data);
+    }
+
+
 }

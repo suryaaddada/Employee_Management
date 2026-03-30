@@ -6,5 +6,7 @@ namespace Employee_Management.Services.Interfaces
     {
         Task<string> MarkAttendanceAsync(AttendanceDto dto);
         Task<List<AttendanceDto>> GetByEmployeeAsync(int employeeId);
+
+        Task<List<AttendanceDto>> GetAttendanceAsync();
     }
 }

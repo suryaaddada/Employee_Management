@@ -1,8 +1,10 @@
 ﻿using Employee_Management.Data;
 using Employee_Management.Entities;
 using Employee_Management.Model;
+using Employee_Management.Services;
 using Employee_Management.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace  Employee_Management .Controllers
 {
@@ -64,6 +66,18 @@ namespace  Employee_Management .Controllers
                 return NotFound("Employee not found");
 
             return Ok("Employee deleted successfully");
+        }
+
+
+        [HttpPost("delete-multiple")]
+        public async Task<IActionResult> DeleteMultiple([FromBody] List<int> ids)
+        {
+            var multipledelete= await _service.DeleteMultipleAsync(ids);
+             
+            if(!multipledelete)
+                return NotFound("One or more Employees not found or invalid ids bveing passed");
+
+            return Ok("Employees deleted successfully");
         }
     }
 }

@@ -20,4 +20,8 @@ export const updateEmployee = async (
   data: Employee
 ): Promise<void> => {
   await api.put(`/Employees/${id}`, data);
+}; 
+
+  export const deleteMultipleEmployees = async (ids: number[]) => {
+  return await api.post("/Employees/delete-multiple", ids);
 };
