@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AttendancePage from "./pages/Attendance";
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -20,11 +21,14 @@ function App() {
 
         {/* Protected layout */}
          <Route element={<ProtectedRoute />}>
-          <Route path="/app" element={<Layout />}>
-            <Route index element={<Employees />} />
-            <Route path="attendance" element={<AttendancePage/>} />
+            <Route path="/app" element={<Layout />}>
+              <Route index element={<Employees />} />
+              <Route path="attendance" element={<AttendancePage />} />
+
+              {/* NEW ROUTES */}
+              <Route path="departments" element={<div>Departments Page</div>} />
+            </Route>
           </Route>
-        </Route>
 
         <Route path="*" element={<Navigate to="/login" replace />} />
 

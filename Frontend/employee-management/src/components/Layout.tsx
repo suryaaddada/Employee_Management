@@ -1,37 +1,107 @@
 import { Outlet, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { exportEmployees, exportAttendance,exportDepartments,exportSalary } from "../services/reportService";
+
 
 function Layout() {
   const navigate = useNavigate();
+  const [showReports, setShowReports] = useState(false);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      
-      {/* HEADER */}
-      <header style={{ display: "flex", justifyContent: "space-between", padding: "10px", background: "#eee" }}>
-        <img src="https://via.placeholder.com/50" alt="logo" />
+    <div style={{ display: "flex", height: "100vh" }}>
+
+      {/* SIDEBAR */}
+      <aside
+        style={{
+          width: "220px",
+          background: "#1f2937",
+          color: "white",
+          padding: "15px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px"
+        }}
+      >
+        <h3 style={{ marginBottom: "20px" }}>HR SYSTEM</h3>
+
+        <button onClick={() => navigate("/app")} style={btnStyle}>
+          Employees
+        </button>
+
+        <button onClick={() => navigate("/app/attendance")} style={btnStyle}>
+          Attendance
+        </button>
+
+        {/* Future routes */}
+        <button onClick={() => navigate("/app/departments")} style={btnStyle}>
+          Departments
+        </button>
+
        <button
-  onClick={() => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  }}
->
-  Logout
-</button>
-      </header>
+          onClick={() => setShowReports(!showReports)}
+          style={btnStyle}>
+          Reports ▼
+        </button>
 
-      {/* BODY */}
-      <main style={{ flex: 1, padding: "10px", overflow: "auto" }}>
-        <Outlet />
-      </main>
+        {showReports && (
+          <div style={{ marginLeft: "10px", display: "flex", flexDirection: "column", gap: "5px" }}>
+            
+            <button onClick={exportEmployees} style={subBtn}>
+              Export Employees
+            </button>
 
-      {/* FOOTER NAV */}
-      <footer style={{ display: "flex", justifyContent: "space-around", padding: "10px", background: "#eee" }}>
-        <button onClick={() => navigate("/app")}>Employees</button>
-        <button onClick={() => navigate("/app/attendance")}>Attendance</button>
-      </footer>
+              <button onClick={exportDepartments} style={subBtn}>
+                Export Departments
+              </button>
 
+              <button onClick={exportAttendance} style={subBtn}>
+                Export Attendance
+              </button>
+
+            <button onClick={exportSalary} style={subBtn}>
+              Export Salary
+            </button>
+
+          </div>
+        )} 
+        <button
+            onClick={() => {
+              localStorage.removeItem("token"); 
+              window.location.href = "/login";}} style={btnStyle} >
+            Logout
+          </button>
+      </aside>
+
+      {/* MAIN CONTENT */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+
+        
+
+        
+        <main style={{ flex: 1, padding: "10px", overflow: "auto" }}>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
+
+const btnStyle: React.CSSProperties = {
+  background: "transparent",
+  color: "white",
+  border: "1px solid #374151",
+  padding: "8px",
+  cursor: "pointer",
+  textAlign: "left"
+}; 
+
+const subBtn: React.CSSProperties = {
+  background: "#374151",
+  color: "white",
+  border: "none",
+  padding: "6px",
+  cursor: "pointer",
+  textAlign: "left"
+};
 
 export default Layout;

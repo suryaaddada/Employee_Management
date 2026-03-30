@@ -1,17 +1,17 @@
 import api from "./api";
 import type {Employee}  from "../models/Employee";
 
-export const getEmployees = async () => {
-  const response = await api.get("/Employees");
-  return response.data;
+export const getEmployees = async (): Promise<Employee[]> => {
+  const res = await api.get("/Employees");
+  return res.data;
 };
 
-export const addEmployee = async (data: Employee) => {
+export const addEmployee = async (data: Employee): Promise<Employee> => {
   const res = await api.post("/Employees", data);
   return res.data;
 };
 
-export const deleteEmployee = async (id: number) => {
+export const deleteEmployee = async (id: number): Promise<void> => {
   await api.delete(`/Employees/${id}`);
 };
 
