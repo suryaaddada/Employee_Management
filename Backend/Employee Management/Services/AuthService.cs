@@ -13,7 +13,6 @@ public class AuthService
         _context = context;
     }
 
-    // 🔐 REGISTER
     public async Task<string> RegisterAsync(RegisterDto dto)
     {
         var userExists = await _context.Users
@@ -35,7 +34,6 @@ public class AuthService
         return "User registered successfully";
     }
 
-    // 🔑 LOGIN
     public async Task<string> LoginAsync(LoginDto dto)
     {
         var user = await _context.Users
@@ -52,7 +50,6 @@ public class AuthService
         return "Login successful";
     }
 
-    // 🔒 HASH PASSWORD
     private string HashPassword(string password)
     {
         using var sha = SHA256.Create();
@@ -61,9 +58,13 @@ public class AuthService
         return Convert.ToBase64String(hash);
     }
 
-    // 🔓 VERIFY PASSWORD
     private bool VerifyPassword(string password, string hash)
     {
         return HashPassword(password) == hash;
+    } 
+
+    public async Task<List<User>> FecthAllAsync()
+    {
+        return await _context.Users.ToListAsync();
     }
 }

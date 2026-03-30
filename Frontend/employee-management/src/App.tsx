@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AttendancePage from "./pages/Attendance";
+import Analysis from "./pages/Analysis";
 
 
 function App() {
@@ -24,9 +25,7 @@ function App() {
             <Route path="/app" element={<Layout />}>
               <Route index element={<Employees />} />
               <Route path="attendance" element={<AttendancePage />} />
-
-              {/* NEW ROUTES */}
-              <Route path="departments" element={<div>Departments Page</div>} />
+              <Route path="analysis" element={<Analysis />} />
             </Route>
           </Route>
 

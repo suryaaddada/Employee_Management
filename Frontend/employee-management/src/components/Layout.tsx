@@ -32,9 +32,8 @@ function Layout() {
           Attendance
         </button>
 
-        {/* Future routes */}
-        <button onClick={() => navigate("/app/departments")} style={btnStyle}>
-          Departments
+        <button onClick={() => navigate("/app/analysis")} style={btnStyle}>
+          Analysis
         </button>
 
        <button

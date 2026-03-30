@@ -9,5 +9,7 @@
         public decimal Salary { get; set; }
         public int DepartmentId { get; set; }
 
+        public DateTime DateOfJoining { get; set; }
+
     }
 }

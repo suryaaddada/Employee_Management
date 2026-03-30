@@ -38,11 +38,7 @@ function Employees() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-
-    setForm({
-      ...form,
-      [name]: value,
-    });
+    setForm({ ...form, [name]: value });
   };
 
   const handleEdit = (emp: Employee) => {
@@ -53,7 +49,6 @@ function Employees() {
       salary: emp.salary.toString(),
       departmentId: emp.departmentId.toString(),
     });
-
     setEditingId(emp.id!);
   };
 
@@ -61,49 +56,50 @@ function Employees() {
     e.preventDefault();
 
     const payload = {
-      name: form.name,
-      email: form.email,
-      phone: form.phone,
+      name: form.name.trim(),
+      email: form.email.trim(),
+      phone: form.phone.trim(),
       salary: Number(form.salary),
       departmentId: Number(form.departmentId),
     };
 
-    if (editingId) {
-      await updateEmployee(editingId, payload);
-      setEditingId(null);
-    } else {
-      await addEmployee(payload);
+    try {
+      if (editingId) {
+        await updateEmployee(editingId, payload);
+        setEditingId(null);
+      } else {
+        await addEmployee(payload);
+      }
+
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        salary: "",
+        departmentId: "",
+      });
+
+      loadEmployees();
+    } catch (err) {
+      console.log(err);
+      alert("Error saving employee");
     }
-
-    setForm({
-      name: "",
-      email: "",
-      phone: "",
-      salary: "",
-      departmentId: "",
-    });
-
-    loadEmployees();
   };
 
   const handleDelete = async (id: number) => {
     await deleteEmployee(id);
     loadEmployees();
+    setSelectedIds((prev) => prev.filter((x) => x !== id));
   };
 
   const handleSelect = (id: number) => {
     setSelectedIds((prev) =>
-      prev.includes(id)
-        ? prev.filter((x) => x !== id)
-        : [...prev, id]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   };
 
   const handleBulkDelete = async () => {
-    if (selectedIds.length === 0) {
-      alert("No employees selected");
-      return;
-    }
+    if (selectedIds.length === 0) return;
 
     await deleteMultipleEmployees(selectedIds);
     setSelectedIds([]);
@@ -113,56 +109,56 @@ function Employees() {
   const getDepartmentName = (id: number) =>
     departments.find((d) => d.id === id)?.name || "Unknown";
 
-  return (
-    <div className="space-y-6">
+  const isFormValid =
+    form.name.trim() &&
+    form.email.trim() &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) &&
+    form.salary.trim() &&
+    !isNaN(Number(form.salary)) &&
+    form.departmentId;
 
-      {/* TITLE */}
-      <h2 className="text-xl font-semibold text-gray-700">
-        Employees
-      </h2>
+  return (
+    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+      <h2 className="text-2xl font-semibold text-gray-800">Employees</h2>
 
       {/* FORM */}
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-2 gap-3 bg-white p-4 rounded border"
+        className="bg-blue-50 border border-blue-100 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-3"
       >
         <input
           name="name"
-          placeholder="Name"
+          placeholder="Name *"
           value={form.name}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
         />
-
         <input
           name="email"
-          placeholder="Email"
+          placeholder="Email *"
           value={form.email}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
         />
-
         <input
           name="salary"
-          placeholder="Salary"
+          placeholder="Salary *"
           value={form.salary}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
         />
-
         <input
           name="phone"
           placeholder="Phone"
           value={form.phone}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border p-2 rounded text-sm"
         />
-
         <select
           name="departmentId"
           value={form.departmentId}
           onChange={handleChange}
-          className="border p-2 rounded col-span-2"
+          className="border p-2 rounded text-sm col-span-1 md:col-span-2"
         >
           <option value="">Select Department</option>
           {departments.map((dept) => (
@@ -172,79 +168,79 @@ function Employees() {
           ))}
         </select>
 
-        <div className="flex gap-2 col-span-2">
+        <div className="flex gap-2 col-span-1 md:col-span-2">
           <button
             type="submit"
-            className="bg-blue-600 text-white px-3 py-1 rounded"
+            disabled={!isFormValid}
+            className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm disabled:bg-gray-400 hover:bg-blue-700 transition"
           >
             {editingId ? "Update" : "Add"}
           </button>
 
-          <button
-            type="button"
-            onClick={handleBulkDelete}
-            className="bg-red-500 text-white px-3 py-1 rounded"
-          >
-            Delete Selected
-          </button>
+          {selectedIds.length > 0 && (
+            <button
+              type="button"
+              onClick={handleBulkDelete}
+              className="bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600 transition"
+            >
+              Delete Selected
+            </button>
+          )}
         </div>
       </form>
 
       {/* TABLE */}
-      <div className="bg-white border rounded overflow-hidden">
+      <div className="bg-white border rounded-lg overflow-hidden">
         <table className="w-full text-sm">
-
-          <thead className="bg-gray-100 text-left">
+          <thead className="bg-gray-100 text-gray-600">
             <tr>
-              <th className="p-2">Select</th>
-              <th className="p-2">Name</th>
-              <th className="p-2">Email</th>
-              <th className="p-2">Salary</th>
-              <th className="p-2">Dept</th>
-              <th className="p-2">Action</th>
+              <th className="p-3"></th>
+              <th className="p-3">Name</th>
+              <th className="p-3">Email</th>
+              <th className="p-3">Salary</th>
+              <th className="p-3">Dept</th>
+              <th className="p-3">Actions</th>
             </tr>
           </thead>
-
           <tbody>
             {employees.map((emp) => (
               <tr key={emp.id} className="border-t hover:bg-gray-50">
-
-                <td className="p-2">
+                <td className="p-3">
                   <input
                     type="checkbox"
                     checked={selectedIds.includes(emp.id!)}
                     onChange={() => handleSelect(emp.id!)}
                   />
                 </td>
-
-                <td className="p-2">{emp.name}</td>
-                <td className="p-2">{emp.email}</td>
-                <td className="p-2">{emp.salary}</td>
-                <td className="p-2">{getDepartmentName(emp.departmentId)}</td>
-
-                <td className="p-2 flex gap-2">
-                  <button
-                    onClick={() => handleDelete(emp.id!)}
-                    className="text-red-500"
-                  >
-                    Delete
-                  </button>
-
+                <td className="p-3">{emp.name}</td>
+                <td className="p-3">{emp.email}</td>
+                <td className="p-3">{emp.salary}</td>
+                <td className="p-3">{getDepartmentName(emp.departmentId)}</td>
+                <td className="p-3 flex gap-2">
                   <button
                     onClick={() => handleEdit(emp)}
-                    className="text-blue-600"
+                    className="text-blue-600 hover:underline"
                   >
                     Edit
                   </button>
+                  <button
+                    onClick={() => handleDelete(emp.id!)}
+                    className="text-red-500 hover:underline"
+                  >
+                    Delete
+                  </button>
                 </td>
-
               </tr>
             ))}
           </tbody>
-
         </table>
-      </div>
 
+        {employees.length === 0 && (
+          <p className="p-4 text-gray-500 text-center text-sm">
+            No employees found
+          </p>
+        )}
+      </div>
     </div>
   );
 }

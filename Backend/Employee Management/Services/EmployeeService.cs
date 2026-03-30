@@ -27,7 +27,8 @@ namespace Employee_Management.Services
                     Email = e.Email,
                     Salary = e.Salary,
                     Phone = e.Phone,
-                    DepartmentId = e.DepartmentId
+                    DepartmentId = e.DepartmentId,
+                    DateOfJoining = e.DateOfJoining
                 })
                 .ToListAsync();
         }
@@ -47,7 +48,8 @@ namespace Employee_Management.Services
                 Email = emp.Email,
                 Phone = emp.Phone,
                 Salary = emp.Salary,
-                DepartmentId = emp.DepartmentId
+                DepartmentId = emp.DepartmentId,
+                DateOfJoining= emp.DateOfJoining
             };
         }
 
