@@ -1,5 +1,7 @@
 ﻿using Employee_Management.Data;
+using Employee_Management.Entities;
 using Employee_Management.Model;
+using Employee_Management.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,6 +14,19 @@ public class AuthService
     {
         _context = context;
     }
+
+    public async Task<User> ValidateUserAsync(LoginDto dto)
+    {
+        var user = await _context.Users
+            .Include(u => u.RefreshTokens)
+            .FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+        if (user == null || !VerifyPassword(dto.Password, user.PasswordHash))
+            return null;
+
+        return user;
+    }
+
 
     public async Task<string> RegisterAsync(RegisterDto dto)
     {
@@ -34,20 +49,9 @@ public class AuthService
         return "User registered successfully";
     }
 
-    public async Task<string> LoginAsync(LoginDto dto)
-    {
-        var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Email == dto.Email);
-
-        if (user == null)
-            throw new Exception("Invalid credentials");
-
-        var isValid = VerifyPassword(dto.Password, user.PasswordHash);
-
-        if (!isValid)
-            throw new Exception("Invalid credentials");
-
-        return "Login successful";
+    public async Task<List<User>> FecthAllAsync() 
+    { 
+        return await _context.Users.ToListAsync();
     }
 
     private string HashPassword(string password)
@@ -61,10 +65,5 @@ public class AuthService
     private bool VerifyPassword(string password, string hash)
     {
         return HashPassword(password) == hash;
-    } 
-
-    public async Task<List<User>> FecthAllAsync()
-    {
-        return await _context.Users.ToListAsync();
     }
 }
