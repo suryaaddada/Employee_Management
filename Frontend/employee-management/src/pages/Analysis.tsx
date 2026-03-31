@@ -21,7 +21,6 @@ function Analysis() {
     return acc;
   }, {});
 
-  // 📊 Department Growth
   const deptGrowth = departments.map((dept) => ({
     name: dept.name,
     count: employees.filter(emp => emp.departmentId === dept.id).length
@@ -34,7 +33,7 @@ function Analysis() {
         Analysis
       </h2>
 
-      {/* Hiring Trend */}
+      
       <div className="bg-white border rounded p-4">
         <h3 className="font-semibold mb-2">Hiring Trend</h3>
 
@@ -56,7 +55,7 @@ function Analysis() {
         </table>
       </div>
 
-      {/* Department Growth */}
+      
       <div className="bg-white border rounded p-4">
         <h3 className="font-semibold mb-2">Department Growth</h3>
 

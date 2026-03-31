@@ -121,7 +121,7 @@ function Employees() {
     <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
       <h2 className="text-2xl font-semibold text-gray-800">Employees</h2>
 
-      {/* FORM */}
+   
       <form
         onSubmit={handleSubmit}
         className="bg-blue-50 border border-blue-100 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-3"
@@ -189,7 +189,7 @@ function Employees() {
         </div>
       </form>
 
-      {/* TABLE */}
+      
       <div className="bg-white border rounded-lg overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-gray-100 text-gray-600">

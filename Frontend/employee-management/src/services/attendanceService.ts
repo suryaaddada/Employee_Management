@@ -1,5 +1,7 @@
 import api from "./api";
 import type { Attendance } from "../models/Attendance";
+
+
 export const markAttendance = (data: Attendance) =>{
     api.post("/Attendance/mark", data);
    

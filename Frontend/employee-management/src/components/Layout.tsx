@@ -10,7 +10,6 @@ function Layout() {
   return (
     <div style={{ display: "flex", height: "100vh" }}>
 
-      {/* SIDEBAR */}
       <aside
         style={{
           width: "220px",
@@ -71,7 +70,6 @@ function Layout() {
           </button>
       </aside>
 
-      {/* MAIN CONTENT */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
 
         

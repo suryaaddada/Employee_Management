@@ -83,10 +83,10 @@ const AttendancePage = () => {
     <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
       <h2 className="text-2xl font-semibold text-gray-800">Attendance</h2>
 
-      {/* FORM + FILTERS SIDE BY SIDE */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-        {/* MARK ATTENDANCE FORM */}
+      
         <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 space-y-3">
 
           <h3 className="text-lg font-medium text-gray-700">Mark Attendance</h3>
@@ -158,7 +158,7 @@ const AttendancePage = () => {
           </button>
         </div>
 
-        {/* FILTERS */}
+        
         <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 space-y-3">
           <h3 className="font-medium text-gray-700">Filters</h3>
           <div className="space-y-2">
@@ -199,7 +199,7 @@ const AttendancePage = () => {
         </div>
       </div>
 
-      {/* TABLE */}
+    
       <div className="bg-white border rounded-lg overflow-hidden">
         <h2 className="p-4 font-semibold text-gray-700 border-b">
           Attendance Records

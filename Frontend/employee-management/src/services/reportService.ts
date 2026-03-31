@@ -1,6 +1,7 @@
 import { getEmployees } from "./employeeService";
 import { getDepartments } from "./departmentService";
 import { getAttendance } from "./attendanceService";
+import type { Attendance } from "../models/Attendance";
 
 const downloadCSV = (filename: string, headers: string[], rows: string[][]) => {
   const csv = [headers, ...rows]
@@ -45,11 +46,11 @@ export const exportAttendance = async () => {
   downloadCSV(
     "attendance.csv",
     ["Employee", "Date", "CheckIn", "CheckOut"],
-    attendance.map(a => [
+    attendance.map((a:Attendance) => [
       String(a.employeeName || a.employeeId),
       a.date,
       a.checkIn ?? "",
-      a.checkOut ?? ""
+      a.checkOut ?? "",
     ])
   );
 }; 

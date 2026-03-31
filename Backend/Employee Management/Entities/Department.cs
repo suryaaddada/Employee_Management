@@ -12,7 +12,6 @@ namespace Employee_Management.Entities
         [Required, MaxLength(100)]
         public string Name { get; set; }
 
-        // Navigation property
         public ICollection<Employee> Employees { get; set; }
     }
 }
