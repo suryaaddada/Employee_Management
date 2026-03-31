@@ -11,6 +11,8 @@ import type { Employee } from "../models/Employee";
 import { getDepartments } from "../services/departmentService";
 import type { Department } from "../models/Department";
 
+import { toast, ToastContainer } from "react-toastify";
+
 function Employees() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -82,7 +84,7 @@ function Employees() {
       loadEmployees();
     } catch (err) {
       console.log(err);
-      alert("Error saving employee");
+      toast.error("Error saving employee");
     }
   };
 
@@ -241,6 +243,7 @@ function Employees() {
           </p>
         )}
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
