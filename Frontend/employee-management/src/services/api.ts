@@ -9,7 +9,7 @@ const api = axios.create({
 });
 
 async function refreshToken() {
-  const response = await api.post("/auth/refresh");
+  const response = await api.post("/Auth/refresh");
   return response.data;
 }
 
