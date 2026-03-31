@@ -16,11 +16,11 @@ function App() {
 
         <Route path="/" element={<Navigate to="/login" />} />
 
-        {/* Public routes */}
+        
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected layout */}
+        
          <Route element={<ProtectedRoute />}>
             <Route path="/app" element={<Layout />}>
               <Route index element={<Employees />} />

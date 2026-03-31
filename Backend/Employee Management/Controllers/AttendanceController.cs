@@ -1,9 +1,11 @@
 ﻿using Employee_Management.Model;
 using Employee_Management.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class AttendanceController : ControllerBase
 {
     private readonly IAttendanceService _service;

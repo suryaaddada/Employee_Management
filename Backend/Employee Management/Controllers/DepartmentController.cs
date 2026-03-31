@@ -1,11 +1,13 @@
 ﻿using Employee_Management.Model;
 using Employee_Management.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employee_Management.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class DepartmentController : ControllerBase
     {
         private readonly IDepartmentService _service;

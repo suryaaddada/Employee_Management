@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { exportEmployees, exportAttendance,exportDepartments,exportSalary } from "../services/reportService";
-
+import {logout} from "../services/authService";
 
 function Layout() {
   const navigate = useNavigate();
@@ -64,9 +64,9 @@ function Layout() {
           </div>
         )} 
         <button
-            onClick={() => {
-              localStorage.removeItem("token"); 
-              window.location.href = "/login";}} style={btnStyle} >
+            onClick={async () => {
+              await logout(); 
+              navigate("/login");}} style={btnStyle} >
             Logout
           </button>
       </aside>

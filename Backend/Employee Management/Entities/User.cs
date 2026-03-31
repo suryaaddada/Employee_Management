@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Employee_Management.Entities;
+using System.ComponentModel.DataAnnotations;
+
 
 public class User
 {
@@ -14,4 +16,6 @@ public class User
     public string PasswordHash { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public List<RefreshToken> RefreshTokens { get; set; }
 }
