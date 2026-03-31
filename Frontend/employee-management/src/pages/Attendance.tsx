@@ -3,6 +3,7 @@ import { markAttendance, getAttendance } from "../services/attendanceService";
 import { getEmployees } from "../services/employeeService";
 import type { Employee } from "../models/Employee";
 import type { Attendance } from "../models/Attendance";
+import { toast, ToastContainer } from "react-toastify";
 
 const AttendancePage = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -61,7 +62,7 @@ const AttendancePage = () => {
       };
 
       await markAttendance(payload);
-      alert("Attendance marked");
+      toast.success("Attendance marked successfully!");
       loadData();
     } catch (err) {
       console.log(err);
@@ -245,6 +246,7 @@ const AttendancePage = () => {
           </p>
         )}
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
