@@ -14,11 +14,13 @@ async function refreshToken() {
 }
 
 api.interceptors.response.use(
-  response => response,
-  async error => {
+  (response) => response,
+  async (error) => {
     const originalRequest = error.config;
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+
       try {
         await refreshToken();
         return api(originalRequest);
@@ -27,6 +29,7 @@ api.interceptors.response.use(
         return Promise.reject(err);
       }
     }
+
     return Promise.reject(error);
   }
 );

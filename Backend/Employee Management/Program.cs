@@ -62,6 +62,21 @@ namespace Employee_Management
                     ValidAudience = jwtSettings["Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]))
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var token = context.Request.Cookies["accessToken"];
+
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            context.Token = token;
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
 
